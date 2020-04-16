@@ -41,6 +41,11 @@ namespace WebApp
             }
 
             app.UseHttpsRedirection();
+
+            var defaultFilesOptions = new DefaultFilesOptions();
+            defaultFilesOptions.DefaultFileNames.Add("default.html");
+            app.UseDefaultFiles();
+
             app.UseStaticFiles();
 
             app.UseRouting();
