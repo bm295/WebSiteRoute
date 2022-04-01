@@ -1,7 +1,10 @@
+using WebSiteRoute.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<InfluxDbService>();
 
 var app = builder.Build();
 
