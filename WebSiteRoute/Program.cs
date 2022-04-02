@@ -1,3 +1,5 @@
+using Coravel;
+using WebSiteRoute.Invocables;
 using WebSiteRoute.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<InfluxDbService>();
+builder.Services.AddTransient<RandomPlaneAltitudeWriter>();
+builder.Services.AddScheduler();
 
 var app = builder.Build();
 
@@ -22,6 +26,11 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.Services.UseScheduler(scheduler =>
+{
+    scheduler.Schedule<RandomPlaneAltitudeWriter>().EveryFiveSeconds();
+});
 
 app.MapControllerRoute(
     name: "default",
